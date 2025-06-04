@@ -23,5 +23,6 @@ Rust backend integration.
 
 - improve website creation
 - middleware 
+- integrated test cases
 - other-routes
 - queue setup based 

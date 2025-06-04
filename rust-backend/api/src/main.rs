@@ -6,6 +6,7 @@ use std::{env, sync::Arc};
 use dotenv::dotenv;
 mod error;
 mod routes;
+mod middleware;
 #[derive(Clone)]
 pub struct AppState {
     db: Arc<Db>,
@@ -17,7 +18,7 @@ async fn main() {
 
     env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
     let port = env::var("PORT").unwrap_or_else(|_| "3000".to_string());
-
+    let jwt_secret =  env::var("SECRET").unwrap_or_else(|_| "admin".to_string());
     let db = Db::new().await;
     db.init().await.expect("Failed to initialize database");
 
@@ -37,7 +38,7 @@ async fn main() {
     let app = Route::new()
         .nest("/api/v1/user", user_api_service)
         .nest("/docs/user", user_ui)
-        .nest("/api/v1/website", website_api_service)
+        .nest("/api/v1/website", website_api_service.with(middleware::user::AuthMiddleware::new(jwt_secret)))
         .nest("/docs/website", website_ui);
 
     let app = app.with(Cors::new()).data(AppState { db });

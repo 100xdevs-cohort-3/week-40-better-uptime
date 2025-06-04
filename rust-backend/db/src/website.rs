@@ -14,9 +14,9 @@ pub struct Website {
 }
 
 impl Db {
-    // Fixed typo: crate_website -> create_website
     pub async fn create_website(&self, url: String, user_id: Uuid) -> Result<Website, Error> {
         info!("Creating a new site with url: {}", url);
+        info!("Creating a new site with userId: {}", user_id);
         
         let now = Utc::now().naive_utc();
         info!("Creating a new site with time_added: {}", now);
