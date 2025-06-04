@@ -21,8 +21,6 @@ Rust backend integration.
 
 ### TODO
 
-- improve website creation
-- middleware 
 - integrated test cases
 - other-routes
 - queue setup based 
