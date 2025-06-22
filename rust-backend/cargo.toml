@@ -1,6 +1,8 @@
 [workspace]
 members = [
 	"api", 
-    "db"
+    "db",
+    "process_queue",
+    "worker"
 ]
 resolver = "2"

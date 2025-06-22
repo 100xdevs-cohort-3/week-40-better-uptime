@@ -5,6 +5,8 @@ edition = "2021"
 
 [dependencies]
 db = { path = "../db" }
+process_queue = {path = "../process_queue" }
+worker = { path = "../worker" }
 poem = "3.1.7"
 poem-openapi = { version = "5", features = ["swagger-ui"] }
 dotenv = "0.15.0"

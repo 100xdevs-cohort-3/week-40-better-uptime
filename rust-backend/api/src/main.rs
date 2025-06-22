@@ -1,7 +1,9 @@
 use db::Db;
+use process_queue::{StreamQueue};
+use worker::start_worker;
 use poem::{listener::TcpListener, middleware::Cors, EndpointExt, Route, Server};
 use poem_openapi::OpenApiService;
-use std::{env, sync::Arc};
+use std::{env, sync::{Arc, Mutex}};
 
 use dotenv::dotenv;
 mod error;
@@ -10,6 +12,7 @@ mod middleware;
 #[derive(Clone)]
 pub struct AppState {
     db: Arc<Db>,
+    queue: Arc<Mutex<StreamQueue>>,
 }
 
 #[tokio::main]
@@ -20,8 +23,10 @@ async fn main() {
     let port = env::var("PORT").unwrap_or_else(|_| "3000".to_string());
     let jwt_secret =  env::var("SECRET").unwrap_or_else(|_| "admin".to_string());
     let db = Db::new().await;
+    let queue = StreamQueue::new();
     db.init().await.expect("Failed to initialize database");
 
+    let queue = Arc::new(Mutex::new(queue));
     
     let db = Arc::new(db);
     let server_url = format!("http://localhost:{}/api/v1", port);
@@ -41,7 +46,7 @@ async fn main() {
         .nest("/api/v1/website", website_api_service.with(middleware::user::AuthMiddleware::new(jwt_secret)))
         .nest("/docs/website", website_ui);
 
-    let app = app.with(Cors::new()).data(AppState { db });
+    let app = app.with(Cors::new()).data(AppState { db, queue });
     let _ = Server::new(TcpListener::bind("0.0.0.0:3000"))
         .run(app)
         .await;
