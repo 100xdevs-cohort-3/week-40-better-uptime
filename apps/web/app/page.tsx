@@ -1,102 +1,109 @@
-import Image, { type ImageProps } from "next/image";
-import { Button } from "@repo/ui/button";
-import styles from "./page.module.css";
-
-type Props = Omit<ImageProps, "src"> & {
-  srcLight: string;
-  srcDark: string;
-};
-
-const ThemeImage = (props: Props) => {
-  const { srcLight, srcDark, ...rest } = props;
-
-  return (
-    <>
-      <Image {...rest} src={srcLight} className="imgLight" />
-      <Image {...rest} src={srcDark} className="imgDark" />
-    </>
-  );
-};
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { 
+  ServerIcon, 
+  BellIcon, 
+  ShieldIcon,
+  LineChartIcon,
+  PieChartIcon,
+  ZapIcon,
+  StatusCircleIcon,
+  RotateIcon
+} from "@/components/icons";
+import FeatureCard from "@/components/home/feature-card";
+import HeroSection from "@/components/home/hero-section";
+import TestimonialSection from "@/components/home/testimonial-section";
+import CompanyLogos from "@/components/home/company-logos";
+import PricingSection from "@/components/home/pricing-section";
+import FaqSection from "@/components/home/faq-section";
+import CtaSection from "@/components/home/cta-section";
+import LiveDemoSection from "@/components/home/live-demo-section";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <ThemeImage
-          className={styles.logo}
-          srcLight="turborepo-dark.svg"
-          srcDark="turborepo-light.svg"
-          alt="Turborepo logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>apps/web/app/page.tsx</code>
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new/clone?demo-description=Learn+to+implement+a+monorepo+with+a+two+Next.js+sites+that+has+installed+three+local+packages.&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F4K8ZISWAzJ8X1504ca0zmC%2F0b21a1c6246add355e55816278ef54bc%2FBasic.png&demo-title=Monorepo+with+Turborepo&demo-url=https%3A%2F%2Fexamples-basic-web.vercel.sh%2F&from=templates&project-name=Monorepo+with+Turborepo&repository-name=monorepo-turborepo&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fturborepo%2Ftree%2Fmain%2Fexamples%2Fbasic&root-directory=apps%2Fdocs&skippable-integrations=1&teamSlug=vercel&utm_source=create-turbo"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://turborepo.com/docs?utm_source"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+    <div className="flex flex-col">
+      <HeroSection />
+      
+      {/* Companies */}
+      <section className="py-12 bg-muted/50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-center text-xl font-medium text-muted-foreground mb-8">
+            Trusted by innovative companies worldwide
+          </h2>
+          <CompanyLogos />
         </div>
-        <Button appName="web" className={styles.secondary}>
-          Open alert
-        </Button>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com/templates?search=turborepo&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://turborepo.com?utm_source=create-turbo"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to turborepo.com →
-        </a>
-      </footer>
+      </section>
+      
+      {/* Features */}
+      <section id="features" className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl font-bold tracking-tight mb-4 sm:text-4xl">
+              Complete monitoring for your entire stack
+            </h2>
+            <p className="text-xl text-muted-foreground">
+              Get alerted before your customers notice any problems with your services.
+            </p>
+          </div>
+          
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <FeatureCard 
+              icon={<ServerIcon className="h-6 w-6 text-blue-500" />}
+              title="Website Monitoring" 
+              description="Monitor your websites with HTTP(S) checks from multiple regions around the world."
+            />
+            <FeatureCard 
+              icon={<StatusCircleIcon className="h-6 w-6 text-green-500" />}
+              title="Status Page" 
+              description="Create beautiful status pages to keep your customers informed about your service status."
+            />
+            <FeatureCard 
+              icon={<BellIcon className="h-6 w-6 text-orange-500" />}
+              title="Smart Alerts" 
+              description="Get notified via SMS, email, Slack, and more when your services go down."
+            />
+            <FeatureCard 
+              icon={<ShieldIcon className="h-6 w-6 text-purple-500" />}
+              title="SSL Monitoring" 
+              description="Receive alerts before your SSL certificates expire and prevent security warnings."
+            />
+            <FeatureCard 
+              icon={<LineChartIcon className="h-6 w-6 text-indigo-500" />}
+              title="Detailed Reports" 
+              description="Get insightful analytics and uptime reports to improve your service reliability."
+            />
+            <FeatureCard 
+              icon={<ZapIcon className="h-6 w-6 text-yellow-500" />}
+              title="API Monitoring" 
+              description="Test your API endpoints for availability, performance, and correctness."
+            />
+          </div>
+          
+          <div className="mt-12 text-center">
+            <Link href="/features">
+              <Button variant="outline" size="lg" className="group">
+                Explore all features
+                <RotateIcon className="ml-2 h-4 w-4 transition-transform group-hover:rotate-90" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+      
+      {/* Live Demo */}
+      <LiveDemoSection />
+      
+      {/* Testimonials */}
+      <TestimonialSection />
+      
+      {/* Pricing */}
+      <PricingSection />
+      
+      {/* FAQ */}
+      <FaqSection />
+      
+      {/* CTA */}
+      <CtaSection />
     </div>
   );
 }
