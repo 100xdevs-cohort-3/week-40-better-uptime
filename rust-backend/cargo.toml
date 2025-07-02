@@ -1,0 +1,8 @@
+[workspace]
+members = [
+	"api", 
+    "db",
+    "process_queue",
+    "worker"
+]
+resolver = "2"
